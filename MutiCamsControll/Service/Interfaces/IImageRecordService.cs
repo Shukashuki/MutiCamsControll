@@ -1,8 +1,9 @@
-﻿using System;
+﻿using MultiCamsControl.Service.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -98,7 +99,49 @@ namespace MultiCamsControl.Service
         }
     }
 
+    public class FakeInferenceService : IInferenceApiService
+    {
+        public async Task<YoloResult<YoloLabelResult>> DetectAsync(YoloImageInput input, CancellationToken ct = default)
+        {
+            // 模擬網路延遲，讓 UI 的「處理中」效果更真實
+            await Task.Delay(TimeSpan.FromSeconds(1), ct);
 
+            // 建立一些假的推論結果
+            var fakePredictions = new List<RecordResult>();
+            var random = new Random();
 
+            // 隨機產生 1 到 3 個假物件
+            int objectCount = random.Next(1, 4);
+            for (int i = 0; i < objectCount; i++)
+            {
+                var fakeClass = "fake_object_" + (i + 1);
+                var fakeConfidence = random.NextDouble() * (0.98 - 0.75) + 0.75; // 產生 0.75 到 0.98 之間的信心度
+                var fakeBoundingBox = new Rectangle(
+                    random.Next(0, input.Image.Width / 2),
+                    random.Next(0, input.Image.Height / 2),
+                    random.Next(50, input.Image.Width / 4),
+                    random.Next(50, input.Image.Height / 4)
+                );
 
+                fakePredictions.Add(new RecordResult(fakeClass, i, fakeConfidence, fakeBoundingBox));
+            }
+
+            // 將假資料包裝成服務應有的回傳格式
+            var fakeLabelResult = new YoloLabelResult(input.ShopOrder, fakePredictions);
+
+            // 回傳成功的結果
+            return YoloResult<YoloLabelResult>.Success(fakeLabelResult);
+        }
+
+        public Task<YoloResult<bool>> PingAsync(CancellationToken ct = default)
+        {
+            // 直接回傳成功
+            return Task.FromResult(YoloResult<bool>.Success(true));
+        }
+    }
 }
+
+
+
+
+

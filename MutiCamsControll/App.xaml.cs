@@ -63,6 +63,7 @@ namespace MultiCamsControl
 
             // 註冊 Camera 管理服務 (修正重複註冊)
             services.AddSingleton<ICameraManagerProvider, CameraManagerProvider>();
+            services.AddSingleton<IInferenceApiService, FakeInferenceService>();
 
             // 註冊 ViewModels
             services.AddSingleton<DetectionViewModel>();
