@@ -16,11 +16,16 @@
 
     <Window.Resources>
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <materialDesign:BundledTheme BaseTheme="Light" PrimaryColor="DeepPurple" SecondaryColor="Lime" />
+            </ResourceDictionary.MergedDictionaries>
+
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
             <converters:BooleanToOppositeConverter x:Key="BooleanToOppositeConverter" />
             <converters:NullToFalseConverter x:Key="NullToFalseConverter" />
         </ResourceDictionary>
     </Window.Resources>
+
 
     <Grid>
         <Grid.RowDefinitions>
