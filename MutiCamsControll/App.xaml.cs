@@ -2,7 +2,7 @@
 using System.Data;
 using System.Windows;
 
-namespace MutiCamsControll
+namespace MultiCamsControl
 {
     /// <summary>
     /// Interaction logic for App.xaml
