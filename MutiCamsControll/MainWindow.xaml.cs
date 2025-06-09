@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using MultiCamsControl.ViewModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,9 +17,13 @@ namespace MultiCamsControl
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+
+        public Func1ViewModel ViewModel { get; }
+        public MainWindow(Func1ViewModel vm)
         {
             InitializeComponent();
+            ViewModel = vm;
+            DataContext = ViewModel;
         }
     }
 }
